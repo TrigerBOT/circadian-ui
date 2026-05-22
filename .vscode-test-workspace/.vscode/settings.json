@@ -1,0 +1,8 @@
+{
+  "circadianUi.scheduleMode": "fixed",
+  "circadianUi.enabled": true,
+  "circadianUi.dayStart": "00:00",
+  "circadianUi.nightStart": "12:00",
+  "circadianUi.dayTheme": "Default Light Modern",
+  "circadianUi.nightTheme": "Default Dark Modern"
+}

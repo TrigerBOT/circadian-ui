@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+out/
+*.vsix
+
+# Tests (@vscode/test-cli)
+.vscode-test/
+coverage/
+
+# Local / secrets
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# Editor (commit launch.json & tasks.json; keep personal settings local)
+.vscode/settings.json

@@ -1,0 +1,192 @@
+{
+  "name": "circadian-ui",
+  "displayName": "Circadian UI",
+  "description": "Switch VS Code color themes on a circadian schedule — sunrise/sunset or fixed times.",
+  "version": "0.1.1",
+  "publisher": "TrigerBOT",
+  "homepage": "https://github.com/TrigerBOT/circadian-ui#readme",
+  "bugs": {
+    "url": "https://github.com/TrigerBOT/circadian-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TrigerBOT/circadian-ui.git"
+  },
+  "author": {
+    "name": "TrigerBOT",
+    "url": "https://github.com/TrigerBOT"
+  },
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Themes",
+    "Other"
+  ],
+  "keywords": [
+    "theme",
+    "circadian",
+    "sunrise",
+    "sunset",
+    "day night",
+    "dark mode"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Circadian UI",
+      "properties": {
+        "circadianUi.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically switch color themes on schedule."
+        },
+        "circadianUi.scheduleMode": {
+          "type": "string",
+          "enum": [
+            "solar",
+            "fixed"
+          ],
+          "default": "solar",
+          "description": "Use sunrise/sunset (solar) or fixed clock times (fixed)."
+        },
+        "circadianUi.dayTheme": {
+          "type": "string",
+          "default": "Default Light Modern",
+          "description": "Color theme applied during the day. Run \"Circadian UI: Select Day Theme\" to pick from installed themes."
+        },
+        "circadianUi.nightTheme": {
+          "type": "string",
+          "default": "Default Dark Modern",
+          "description": "Color theme applied at night. Run \"Circadian UI: Select Night Theme\" to pick from installed themes."
+        },
+        "circadianUi.latitude": {
+          "type": "number",
+          "default": 55.7558,
+          "description": "Latitude for solar schedule (decimal degrees)."
+        },
+        "circadianUi.longitude": {
+          "type": "number",
+          "default": 37.6173,
+          "description": "Longitude for solar schedule (decimal degrees)."
+        },
+        "circadianUi.solarOffsetMinutes": {
+          "type": "number",
+          "default": 0,
+          "description": "Minutes to shift sunrise and sunset transitions (can be negative)."
+        },
+        "circadianUi.dayStart": {
+          "type": "string",
+          "default": "07:00",
+          "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$",
+          "description": "Fixed schedule: switch to day theme at this time (HH:mm, local)."
+        },
+        "circadianUi.nightStart": {
+          "type": "string",
+          "default": "19:00",
+          "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$",
+          "description": "Fixed schedule: switch to night theme at this time (HH:mm, local)."
+        },
+        "circadianUi.respectManualTheme": {
+          "type": "boolean",
+          "default": true,
+          "description": "Pause auto-switching when you change the theme manually."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "circadianUi.toggle",
+        "title": "Circadian UI: Toggle Auto Theme"
+      },
+      {
+        "command": "circadianUi.applyNow",
+        "title": "Circadian UI: Apply Theme for Current Time"
+      },
+      {
+        "command": "circadianUi.selectDayTheme",
+        "title": "Circadian UI: Select Day Theme…"
+      },
+      {
+        "command": "circadianUi.selectNightTheme",
+        "title": "Circadian UI: Select Night Theme…"
+      },
+      {
+        "command": "circadianUi.selectThemePair",
+        "title": "Circadian UI: Select Day and Night Themes…"
+      },
+      {
+        "command": "circadianUi.detectLocation",
+        "title": "Circadian UI: Detect Location by IP"
+      },
+      {
+        "command": "circadianUi.openSettings",
+        "title": "Circadian UI: Open Settings"
+      },
+      {
+        "command": "circadianUi.resume",
+        "title": "Circadian UI: Resume Auto Theme"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "circadianUi.toggle"
+        },
+        {
+          "command": "circadianUi.applyNow"
+        },
+        {
+          "command": "circadianUi.selectDayTheme"
+        },
+        {
+          "command": "circadianUi.selectNightTheme"
+        },
+        {
+          "command": "circadianUi.selectThemePair"
+        },
+        {
+          "command": "circadianUi.detectLocation"
+        },
+        {
+          "command": "circadianUi.openSettings"
+        },
+        {
+          "command": "circadianUi.resume"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "lint": "eslint src --ext .ts",
+    "test:unit": "vitest run",
+    "test:integration": "npm run compile && vscode-test",
+    "test": "npm run test:unit && npm run test:integration",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.59.3",
+    "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "suncalc": "^1.9.0"
+  }
+}
