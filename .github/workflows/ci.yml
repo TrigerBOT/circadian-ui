@@ -22,7 +22,8 @@ jobs:
       - run: npm run lint
       - run: npm run test:unit
 
+      # VS Code (Electron) needs a display on headless Linux runners
       - name: Integration tests
-        run: npm run test:integration
+        run: xvfb-run -a npm run test:integration
 
       - run: npm run package
