@@ -34,10 +34,18 @@ describe('solar', () => {
     expect(getThemeForSolarNow(noon, cfg)).toBe('Day');
   });
 
-  it('detects nighttime at midnight', () => {
-    const midnight = new Date(2025, 5, 21, 1, 0, 0);
-    expect(isSolarDaytime(midnight, LAT, LON, 0)).toBe(false);
-    expect(getThemeForSolarNow(midnight, cfg)).toBe('Night');
+  it('detects nighttime before sunrise and after sunset', () => {
+    const anchor = new Date(2025, 5, 21, 12, 0, 0);
+    const times = getSolarTimesForDate(anchor, LAT, LON, 0);
+    expect(times).not.toBeNull();
+
+    const beforeSunrise = new Date(times!.sunrise.getTime() - 60_000);
+    expect(isSolarDaytime(beforeSunrise, LAT, LON, 0)).toBe(false);
+    expect(getThemeForSolarNow(beforeSunrise, cfg)).toBe('Night');
+
+    const afterSunset = new Date(times!.sunset.getTime() + 60_000);
+    expect(isSolarDaytime(afterSunset, LAT, LON, 0)).toBe(false);
+    expect(getThemeForSolarNow(afterSunset, cfg)).toBe('Night');
   });
 
   it('applies solar offset', () => {
